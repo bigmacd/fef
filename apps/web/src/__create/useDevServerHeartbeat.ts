@@ -1,6 +1,8 @@
 'use client';
 
-import { useIdleTimer } from 'react-idle-timer';
+import * as pkg from 'react-idle-timer';
+
+const { useIdleTimer } = pkg as any;
 
 export function useDevServerHeartbeat() {
   useIdleTimer({
