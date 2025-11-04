@@ -3,169 +3,25 @@
 import { useState } from "react";
 import FarmHeader from "@/components/FarmHeader";
 import { X } from "lucide-react";
-
-import image1 from "@/assets/image-4044-AF89-7C-0.jpeg";
-import image2 from "@/assets/image-40DB-B49F-33-0.jpeg";
-import image3 from "@/assets/image-4149-A289-EC-0.jpeg";
-import image4 from "@/assets/image-4187-A79E-6A-0.jpeg";
-import image5 from "@/assets/image-4254-8D81-E4-0.jpeg";
-import image6 from "@/assets/image-428B-A0B0-49-0.jpeg";
-import image7 from "@/assets/image-4352-867E-83-0.jpeg";
-import image8 from "@/assets/image-43E2-957E-01-0.jpeg";
-import image9 from "@/assets/image-43F1-9F22-FA-0.jpeg";
-import image10 from "@/assets/image-440B-96B0-A9-0.jpeg";
-import image11 from "@/assets/image-4504-B5EC-11-0.jpeg";
-import image12 from "@/assets/image-4509-80B8-E2-0.jpeg";
-import image13 from "@/assets/image-46DA-B8D7-B4-0.jpeg";
-import image14 from "@/assets/image-4733-ACF1-17-0.jpeg";
-import image15 from "@/assets/image-47BE-85D9-F7-0.jpeg";
-import image16 from "@/assets/image-47D3-96DC-9A-0.jpeg";
-import image17 from "@/assets/image-48C6-8B6E-C4-0.jpeg";
-import image18 from "@/assets/image-49A2-9A70-AE-0.jpeg";
-import image19 from "@/assets/image-4B22-9579-F3-0.jpeg";
-import image20 from "@/assets/image-4B87-BE59-8C-0.jpeg";
-import image21 from "@/assets/image-4BC3-ACF1-2E-0.jpeg";
-import image22 from "@/assets/image-4C33-96BE-0E-0.jpeg";
-import image23 from "@/assets/image-4C42-8DF4-B5-0.jpeg";
-import image24 from "@/assets/image-4DE9-B7FD-93-0.jpeg";
-import image25 from "@/assets/image-4EFD-91BF-0A-0.jpeg";
-import image26 from "@/assets/image-4F5D-BE65-47-0.jpeg";
+import { galleryImages } from "./galleryImages";
 
 export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageErrors, setImageErrors] = useState(new Set());
 
-  const galleryImages = [
-    {
-      id: 1,
-      src: image1,
-      category: "Farm Life",
-    },
-    {
-      id: 2,
-      src: image2,
-      category: "Products",
-    },
-    {
-      id: 3,
-      src: image3,
-      category: "Farm Helpers",
-    },
-    {
-      id: 4,
-      src: image4,
-      category: "Fresh baked goods",
-    },
-    {
-      id: 5,
-      src: image5,
-      category: "Troublemaker",
-    },
-    {
-      id: 6,
-      src: image6,
-      category: "Eggs!",
-    },
-    {
-      id: 7,
-      src: image7,
-      category: "Donkeys",
-    },
-    {
-      id: 8,
-      src: image8,
-      category: "Babies!",
-    },
-    {
-      id: 9,
-      src: image9,
-      category: "More Troublemakers",
-    },
-    {
-        id: 10,
-        src: image10,
-        category: "Party Time!",
-      },
-      {
-        id: 11,
-        src: image11,
-        category: "Markets",
-      },
-      {
-        id: 12,
-        src: image12,
-        category: "Big Girl",
-      },
-      {
-        id: 13,
-        src: image13,
-        category: "Donkey Love",
-      },
-      {
-        id: 14,
-        src: image14,
-        category: "Silkies!",
-      },
-      {
-        id: 15,
-        src: image15,
-        category: "No words needed",
-      },
-      {
-        id: 16,
-        src: image16,
-        category: "Hungry babies",
-      },
-      {
-        id: 17,
-        src: image17,
-        category: "Handsome",
-      },
-      {
-        id: 18,
-        src: image18,
-        category: "Another Helper",
-      },
-      {
-        id: 19,
-        src: image19,
-        category: "Fun Times",
-      },
-      {
-        id: 20,
-        src: image20,
-        category: "Garden Work",
-      },
-      {
-        id: 21,
-        src: image21,
-        category: "Cuties",
-      },
-      {
-        id: 22,
-        src: image22,
-        category: "Amazing Girls",
-      },
-      {
-        id: 23,
-        src: image23,
-        category: "Goat Kisses",
-      },
-      {
-        id: 24,
-        src: image24,
-        category: "No Words Work Here",
-      },
-      {
-        id: 25,
-        src: image25,
-        category: "Proprietors",
-      },
-      {
-        id: 26,
-        src: image26,
-        category: "Hangin' in the sun",
-      },
- ];
+  // Handle image load errors
+  const handleImageError = (imageId) => {
+    setImageErrors((prev) => new Set(prev).add(imageId));
+  };
+
+  // Get fallback image URL (optional - you can use a placeholder)
+  const getImageSrc = (image) => {
+    if (imageErrors.has(image.id)) {
+      // Fallback to a placeholder or error image
+      return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23ddd" width="400" height="400"/%3E%3Ctext fill="%23999" font-family="sans-serif" font-size="18" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EImage not available%3C/text%3E%3C/svg%3E';
+    }
+    return image.src;
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#121212]">
@@ -195,7 +51,11 @@ export default function GalleryPage() {
               >
                 <div className="relative aspect-square mb-4 bg-white dark:bg-[#1E1E1E] overflow-hidden">
                   <img
-                    src={image.src}
+                    src={getImageSrc(image)}
+                    alt={image.alt || image.category}
+                    loading="lazy"
+                    decoding="async"
+                    onError={() => handleImageError(image.id)}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 dark:bg-black/10 dark:group-hover:bg-black/30"></div>
@@ -227,7 +87,10 @@ export default function GalleryPage() {
               <X className="w-8 h-8" />
             </button>
             <img
-              src={selectedImage.src}
+              src={getImageSrc(selectedImage)}
+              alt={selectedImage.alt || selectedImage.category}
+              loading="eager"
+              onError={() => handleImageError(selectedImage.id)}
               className="w-full h-auto max-h-[80vh] object-contain"
             />
             <div className="mt-4 text-center">
@@ -285,10 +148,10 @@ export default function GalleryPage() {
                   Instagram
                 </a>
                 <a
-                  href="#"
+                  href="https://www.tiktok.com/@floppy.ears.farm"
                   className="text-white hover:text-[#d4a574] transition-colors"
                 >
-                  Facebook
+                  TikTok
                 </a>
               </div>
             </div>
