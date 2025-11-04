@@ -1,3 +1,19 @@
+interface ImportMetaEnv {
+    DEV: boolean;
+    PROD: boolean;
+    MODE: string;
+}
+
+interface ImportMeta {
+    url: string;
+    env: ImportMetaEnv;
+    glob: (path: string, options?: { eager?: boolean }) => Record<string, () => Promise<any>>;
+    hot?: {
+        accept: (cb: (mod: any) => void) => void;
+        invalidate: () => void;
+    };
+}
+
 import { readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -104,7 +120,8 @@ function generateRoutes(node: Tree): RouteConfigEntry[] {
 
 	return routes;
 }
-if (import.meta.env.DEV) {
+// Check both import.meta.env and process.env for environment
+if ((typeof import.meta !== 'undefined' && import.meta.env?.DEV) || process.env.NODE_ENV === 'development') {
 	import.meta.glob('./**/page.jsx', {});
 	if (import.meta.hot) {
 		import.meta.hot.accept((newSelf) => {

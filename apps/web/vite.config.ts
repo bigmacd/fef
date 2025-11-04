@@ -12,6 +12,7 @@ import { loadFontsFromTailwindSource } from './plugins/loadFontsFromTailwindSour
 import { nextPublicProcessEnv } from './plugins/nextPublicProcessEnv';
 import { restart } from './plugins/restart';
 import { restartEnvFileChange } from './plugins/restartEnvFileChange';
+import { copyApiRoutes } from './plugins/copy-api-routes';
 
 export default defineConfig({
   // Keep them available via import.meta.env.NEXT_PUBLIC_*
@@ -38,6 +39,15 @@ export default defineConfig({
     reactRouterHonoServer({
       serverEntryPoint: './__create/index.ts',
       runtime: 'node',
+      serverBuildOptions: {
+        copyPublicDir: true,
+        rollupOptions: {
+          input: {
+            server: './__create/index.ts',
+            api: './src/app/api/**/route.{js,ts}'
+          }
+        }
+      }
     }),
     babel({
       include: ['src/**/*.{js,jsx,ts,tsx}'], // or RegExp: /src\/.*\.[tj]sx?$/
@@ -65,6 +75,7 @@ export default defineConfig({
     tsconfigPaths(),
     aliases(),
     layoutWrapperPlugin(),
+    copyApiRoutes(),
   ],
   resolve: {
     alias: {

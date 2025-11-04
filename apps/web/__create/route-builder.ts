@@ -5,11 +5,36 @@ import { Hono } from 'hono';
 import type { Handler } from 'hono/types';
 import updatedFetch from '../src/__create/fetch';
 
+interface ImportMetaEnv {
+  DEV: boolean;
+  PROD: boolean;
+  MODE: string;
+}
+
+interface ImportMeta {
+  url: string;
+  env: ImportMetaEnv;
+  glob: (path: string, options?: { eager?: boolean }) => Record<string, () => Promise<any>>;
+  hot?: {
+    accept: (cb: (mod: any) => void) => void;
+  };
+}
+
 const API_BASENAME = '/api';
 const api = new Hono();
 
-// Get current directory
-const __dirname = join(fileURLToPath(new URL('.', import.meta.url)), '../src/app/api');
+// Get current directory - handle both development and production paths
+const apiPath = process.env.NODE_ENV === 'production' ? 'build/server/src/app/api' : 'src/app/api';
+const __dirname = join(process.cwd(), apiPath);
+
+// Ensure the API directory exists
+import { mkdirSync } from 'node:fs';
+try {
+  mkdirSync(__dirname, { recursive: true });
+} catch (error) {
+  console.warn('Could not create API directory:', error);
+}
+
 if (globalThis.fetch) {
   globalThis.fetch = updatedFetch;
 }
