@@ -55,17 +55,6 @@ export default function FarmHeader() {
         </div>
       </div>
 
-      <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@400;600&display=swap');
-
-        .font-playfair {
-          font-family: 'Playfair Display', serif;
-        }
-
-        .font-inter {
-          font-family: 'Inter', sans-serif;
-        }
-      `}</style>
     </header>
   );
 }
