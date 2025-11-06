@@ -20,7 +20,7 @@ export default defineConfig({
   optimizeDeps: {
     // Explicitly include fast-glob, since it gets dynamically imported and we
     // don't want that to cause a re-bundle.
-    include: ['fast-glob', 'lucide-react'],
+    include: ['fast-glob', 'lucide-react', 'react-idle-timer'],
     exclude: [
       '@hono/auth-js/react',
       '@hono/auth-js',
@@ -31,6 +31,11 @@ export default defineConfig({
       'fsevents',
       'lightningcss',
     ],
+  },
+  // Ensure some ESM-only dependencies are bundled for SSR to avoid
+  // "Cannot use import statement outside a module" runtime errors.
+  ssr: {
+    noExternal: ['react-idle-timer'],
   },
   logLevel: 'info',
   plugins: [
