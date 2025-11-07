@@ -1,17 +1,17 @@
-
 # Local Development
+
+cd apps/web
+
+## build and run the app
 
 npm install
 npm run build
-npm run start or npx vite preview --strictPort --port 8080
+node --env-file=.env.local build/server/index.js
 
-# using node.js - build container image
+## build container image
 
-cd apps/web
-docker build -t floppy-ears-farm-web .
-docker run --name fefWeb -p 8080:8080 floppy-ears-farm-web
+docker build . -t fef
+docker run --name fef -p 8080:8080 fef
 
-# using Nginx - build container image
-cd apps/web
-docker build -f Dockerfile.nginx -t floppy-ears-farm-web .
-docker run --name fefWeb -p 80:80 floppy-ears-farm-web
+testing with local database (also running in docker):
+    docker run --name fef -p 8080:8080 --add-host=host.docker.internal:host-gateway fef

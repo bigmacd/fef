@@ -16,6 +16,7 @@ dist/
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
 
 # Logs
 logs
@@ -83,3 +84,4 @@ src/assets/*.svg
 
 # for now, the mobile directory
 apps/mobile/
+root.crt

@@ -1,69 +1,8 @@
 import FarmHeader from "@/components/FarmHeader";
 import FarmFooter from "../../components/FarmFooter";
+import { ProductList } from "@/components/ProductList";
 
 export default function ProductsPage() {
-  const products = [
-    {
-      id: 1,
-      name: "Free-Range Eggs - Dozen",
-      price: "$8.99",
-      image:
-        "https://images.pexels.com/photos/4725284/pexels-photo-4725284.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop",
-      description:
-        "Fresh, free-range eggs from our happy hens. Packed with flavor and nutrition.",
-      category: "Eggs",
-    },
-    {
-      id: 2,
-      name: "Sourdough Bread",
-      price: "$6.50",
-      image:
-        "https://images.pexels.com/photos/227432/pexels-photo-227432.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop",
-      description:
-        "Artisan sourdough bread baked fresh daily using traditional methods.",
-      category: "Baked Goods",
-    },
-    {
-      id: 3,
-      name: "Chocolate Chip Cookies",
-      price: "$4.50",
-      image:
-        "https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop",
-      description:
-        "Delicious homemade cookies with premium chocolate chips. Dozen pack.",
-      category: "Baked Goods",
-    },
-    {
-      id: 4,
-      name: "Brown Eggs - Half Dozen",
-      price: "$5.49",
-      image:
-        "https://images.pexels.com/photos/4725284/pexels-photo-4725284.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop",
-      description:
-        "Half dozen of our finest free-range brown eggs. Perfect for smaller households.",
-      category: "Eggs",
-    },
-    {
-      id: 5,
-      name: "Whole Wheat Loaf",
-      price: "$7.00",
-      image:
-        "https://images.pexels.com/photos/1624487/pexels-photo-1624487.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop",
-      description:
-        "Hearty whole wheat bread with whole grains and seeds. Nutritious and delicious.",
-      category: "Baked Goods",
-    },
-    {
-      id: 6,
-      name: "Blueberry Muffins",
-      price: "$5.99",
-      image:
-        "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop",
-      description: "Fresh blueberry muffins bursting with flavor. Pack of 6.",
-      category: "Baked Goods",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-white dark:bg-[#121212]">
       <FarmHeader />
@@ -83,40 +22,7 @@ export default function ProductsPage() {
       {/* Product Grid */}
       <section className="py-12 md:py-16 lg:py-24 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-            {products.map((product) => (
-              <div key={product.id} className="group cursor-pointer">
-                {/* Product Image */}
-                <div className="relative aspect-square mb-6 bg-white dark:bg-[#1E1E1E] overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 dark:bg-black/10 dark:group-hover:bg-black/30"></div>
-                </div>
-
-                {/* Product Info */}
-                <div>
-                  <p className="font-inter text-xs uppercase tracking-widest text-[#7c5c2d] dark:text-[#d4a574] mb-2 font-semibold">
-                    {product.category}
-                  </p>
-                  <h3 className="font-playfair text-2xl md:text-3xl text-black dark:text-[#E5E5E5] mb-2 group-hover:text-[#7c5c2d] dark:group-hover:text-[#d4a574] transition-colors">
-                    {product.name}
-                  </h3>
-                  <p className="font-inter text-lg font-semibold text-[#7c5c2d] dark:text-[#d4a574] mb-4">
-                    {product.price}
-                  </p>
-                  <p className="font-inter text-base leading-relaxed text-[#555] dark:text-[#B0B0B0] mb-6">
-                    {product.description}
-                  </p>
-                  <button className="w-full font-inter text-sm md:text-base text-white bg-[#7c5c2d] hover:bg-[#6b4f25] dark:bg-[#d4a574] dark:hover:bg-[#c89664] px-6 py-3 uppercase tracking-wide transition-colors">
-                    Order Now
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ProductList />
         </div>
       </section>
 

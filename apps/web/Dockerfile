@@ -5,14 +5,11 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-COPY package-lock.json* ./
-
-# Install dependencies
+# Copy package files and install dependencies
+COPY package*.json package-lock.json* ./
 RUN npm ci --only=production=false
 
-# Copy source code
+# Now copy the rest of the source code
 COPY . .
 
 # Build the application
@@ -26,22 +23,24 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
+# Copy PostgreSQL root certificate for secure DB connections
+COPY root.crt /root/.postgresql/root.crt
+
+# Copy environment file
+COPY .env.production ./.env
+
+ARG DATABASE_URL
+ENV db_url ${DATABASE_URL}
+
 # Install only production dependencies
 RUN npm ci --only=production && npm cache clean --force
 
-# Copy built application
+# Copy built application and environment file
 COPY --from=builder /app/build ./build
-
-# Copy server file
-COPY server.js ./
 
 # Expose port
 EXPOSE 8080
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:8080', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
-
 # Start the application with logging
-CMD ["node", "server.js"]
+CMD ["node", "--env-file=.env", "build/server/index.js"]
 

@@ -200,7 +200,7 @@ async function serveStatic(req, res) {
   }
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   const startTime = Date.now();
 
   // Log request start
@@ -209,6 +209,54 @@ const server = http.createServer((req, res) => {
     url: req.url,
     headers: req.headers,
   });
+
+  // Handle API routes
+  if (req.url?.startsWith('/api/')) {
+    try {
+      // Remove query string and any leading slashes so path.join works as expected
+      const routePath = req.url.replace(/\?.*$/, '').replace(/^\/+/, ''); // e.g. 'api/auth/session'
+      const routeFile = path.join(__dirname, 'build', 'server', 'src', 'app', routePath, 'route.js');
+
+      try {
+        // Check the file exists before attempting to import it. This avoids
+        // throwing a module-not-found error when the server build hasn't
+        // produced server-side route files.
+        await fs.stat(routeFile);
+
+        const route = await import(routeFile);
+        if (route && route[req.method]) {
+          const result = await route[req.method](new Request(req.url, {
+            method: req.method,
+            headers: req.headers,
+            body: req.method === 'GET' ? null : req
+          }));
+
+          // Copy status and headers
+          res.statusCode = result.status;
+          result.headers.forEach((value, key) => {
+            res.setHeader(key, value);
+          });
+
+          // Send response
+          res.end(await result.text());
+          return;
+        }
+      } catch (error) {
+        // Common expected cases:
+        // - route file doesn't exist because server build wasn't run
+        // - import failed due to an error in the route module
+        // Log at debug level and fall through to static handling / 404
+        log('debug', 'API route not found or failed to load', { routeFile, message: error?.message });
+      }
+    } catch (error) {
+      // Any unexpected error in API handling should return 500
+      log('error', 'API handling error', { error: error?.message });
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ error: 'Internal Server Error' }));
+      return;
+    }
+  }
 
   // Handle errors
   req.on('error', (error) => {

@@ -1,8 +1,9 @@
 node_modules
 npm-debug.log
-.env
-.env.local
-.env.*.local
+# Allow env files for build
+#.env
+#.env.local
+#.env.*.local
 .DS_Store
 .git
 .gitignore
