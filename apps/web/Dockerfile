@@ -30,7 +30,7 @@ COPY root.crt /root/.postgresql/root.crt
 COPY .env.production ./.env
 
 ARG DATABASE_URL
-ENV db_url ${DATABASE_URL}
+ENV DATABASE_URL ${DATABASE_URL}
 
 # Install only production dependencies
 RUN npm ci --only=production && npm cache clean --force

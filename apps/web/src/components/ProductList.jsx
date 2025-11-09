@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useCartStore } from '@/store/cartStore';
 
 export function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
     console.log('ProductList: Component mounted, starting fetch');
@@ -75,9 +77,12 @@ export function ProductList() {
                   {product.description}
                 </p>
               )}
-              {/*<button className="w-full font-inter text-sm md:text-base text-white bg-[#7c5c2d] hover:bg-[#6b4f25] dark:bg-[#d4a574] dark:hover:bg-[#c89664] px-6 py-3 uppercase tracking-wide transition-colors">
-                Order Now
-              </button>*/}
+              <button
+                onClick={() => addItem(product)}
+                className="w-full font-inter text-sm md:text-base text-white bg-[#7c5c2d] hover:bg-[#6b4f25] dark:bg-[#d4a574] dark:hover:bg-[#c89664] px-6 py-3 uppercase tracking-wide transition-colors"
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
         ))}

@@ -10,7 +10,6 @@ const pool = new Pool({
   // Add some debugging options
   connectionTimeoutMillis: 5000,
   query_timeout: 5000,
-  database: 'fef'
 });
 
 // Add error handler for pool errors
@@ -33,7 +32,7 @@ export async function GET(request) {
 
     // Try a lightweight query first. If a 'products' table exists, return some rows.
     const checkProducts = await pool.query(
-      "SELECT to_regclass('public.products') as products_table"
+      "SELECT to_regclass('products') as products_table"
     );
 
     const hasProducts = checkProducts.rows[0] && checkProducts.rows[0].products_table;
