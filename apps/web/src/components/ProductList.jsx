@@ -77,12 +77,12 @@ export function ProductList() {
                   {product.description}
                 </p>
               )}
-              <button
+              {/* <button
                 onClick={() => addItem(product)}
                 className="w-full font-inter text-sm md:text-base text-white bg-[#7c5c2d] hover:bg-[#6b4f25] dark:bg-[#d4a574] dark:hover:bg-[#c89664] px-6 py-3 uppercase tracking-wide transition-colors"
               >
                 Add to Cart
-              </button>
+              </button> */}
             </div>
           </div>
         ))}

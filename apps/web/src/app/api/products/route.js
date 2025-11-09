@@ -38,7 +38,9 @@ export async function GET(request) {
     const hasProducts = checkProducts.rows[0] && checkProducts.rows[0].products_table;
 
     if (hasProducts) {
+        console.log('API: products table exists, fetching rows');
       const rows = await pool.query('SELECT id, name, price, description, image FROM products LIMIT 50');
+      console.log(`API: Retrieved ${rows.rowCount} products`);
       return new Response(JSON.stringify({ rows: rows.rows }), {
         headers: { 'Content-Type': 'application/json' },
       });

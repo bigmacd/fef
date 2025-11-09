@@ -10,13 +10,13 @@ export default function FarmHeader() {
     <header className="bg-white dark:bg-[#1E1E1E] border-b border-[#E5E5E5] dark:border-[#333] sticky top-0 z-50">
       <div className="px-4 lg:px-8 py-4 md:py-5">
         <div className="flex items-center justify-between">
-          {/* Left - Menu */}
-          <button className="flex items-center gap-2 group">
-            <Menu className="w-5 h-5 text-[#111] dark:text-[#E5E5E5]" />
-            <span className="font-inter text-[#111] dark:text-[#E5E5E5] text-sm uppercase tracking-wide hidden sm:block group-hover:text-[#7c5c2d] dark:group-hover:text-[#d4a574] transition-colors">
-              MENU
-            </span>
-          </button>
+          {/* Left - Home */}
+            <a
+              href="/"
+              className="font-inter text-sm md:text-base text-[#111] dark:text-[#E5E5E5] uppercase tracking-wide hover:text-[#7c5c2d] dark:hover:text-[#d4a574] transition-colors"
+            >
+              Home
+            </a>
 
           {/* Center - Logo */}
           <Link
@@ -55,7 +55,7 @@ export default function FarmHeader() {
             >
               About
             </a>
-            <Link
+            {/* <Link
               to="/cart"
               className="relative flex items-center justify-center w-10 h-10 text-[#111] dark:text-[#E5E5E5] hover:text-[#7c5c2d] dark:hover:text-[#d4a574] transition-colors"
             >
@@ -65,7 +65,7 @@ export default function FarmHeader() {
                   {itemCount > 99 ? '99+' : itemCount}
                 </span>
               )}
-            </Link>
+            </Link> */}
           </nav>
         </div>
       </div>
